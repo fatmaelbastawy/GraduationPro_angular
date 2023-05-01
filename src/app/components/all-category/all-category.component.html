@@ -1,0 +1,68 @@
+<button class=" btn btn-warning d-block d-sm-none d-md-none col-12 col-sm-4 col-md-3
+      warning.bg-gradient" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+  aria-controls="offcanvasRight" [translate]="'Filter-Products'">
+</button>
+<div class="offcanvas offcanvas-end col-2 " data-bs-scroll="true" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel" >
+<app-slidbar-allcategory></app-slidbar-allcategory>
+</div>
+<!-- canvas -->
+<!-- ////////////////////////////////////////////////////// -->
+<div class=" container-fluid">
+  <div class="row">
+    <div class="col-12 py-3">
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4" id="products-list">
+        <div class="col product-card p-2" *ngFor="let Prod of prodList.slice(products[currentProductIndex].num1,products[currentProductIndex].num2)" >
+          <div class="p-2 bg-white h-100">
+            <div class="div-center col-12" (click)="getProductDetails(Prod.id)">
+              <div>
+                <img [src]="Prod.imagePath" width="200" height="200">
+              </div>
+              <h6 class="prod-card-title"> {{lang == 'en'? Prod.name : Prod.nameAr}}
+              </h6>
+            </div>
+
+            <div class="d-flex flex-row">
+              <p [translate]="'EGP'"></p>
+              <h6 class="px-2 fw-bold">{{Prod.price}}</h6>
+            </div>
+            <div *ngIf="Prod!= undefined && Prod.discount >0">
+              <span [translate]="'EGP'"></span>
+              <span class="text-decoration-line-through txtFont2">{{Prod.price|discountpipe:Prod.discount}}
+                &nbsp;</span>
+              <span class="fw-bold txtFont2" style="color: #3bbd04;">{{Prod?.discount}}%</span>
+            </div>
+            <div class="d-flex flex-row flex-wrap justify-content-between">
+              <div class="express-badge my-2" [translate]="'express'"></div>
+              <div class="d-flex flex-row my-2 ">
+                <div class="prod-rate ">
+                  {{Prod.rate}}
+                  <i class="bi bi-star-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav aria-label="Page navigation example ">
+  <ul class="pagination justify-content-center ">
+    <li class="page-item" (click)="previous()">
+      <span class="page-link text-secondary"  aria-label="Previous">
+        <span aria-hidden="true" >&laquo;</span>
+      </span>
+    </li>
+    <li class="page-item"><a class="page-link text-secondary">1</a></li>
+    <li class="page-item"><a class="page-link text-secondary">.............</a></li>
+    <li class="page-item"><a class="page-link text-secondary">10</a></li>
+    <li class="page-item"  (click)="next()" >
+      <span class="page-link text-secondary"  aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </span>
+    </li>
+  </ul>
+</nav>
+<!-- <button >Previous</button>
+<button >Next</button> -->

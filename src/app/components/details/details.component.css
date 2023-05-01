@@ -1,0 +1,119 @@
+.head-links a{
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+.smartphone-rate .rounded-pill,
+.desktop .rounded-pill{
+  background-color:#38AE04;
+  color: white;
+}
+#fixed-cart-section{
+  position:fixed; z-index: 3;
+   background-color: white;
+   bottom: 0;
+}
+.cart-button{
+  background-color: #2B4CD7;
+   color: white;
+}
+.savings-percentage{
+  background-color:#e3eccd;
+   color: #38AE04;
+}
+.ad-descibed,
+.reviewRating ,
+.rateStars{
+  color:#38AE04 ;font-size: 1.5em;
+}
+.right-row2-text{
+  font-size: 0.75em; font-weight: bold; text-align: center;
+}
+.right-row2-img{
+  display: flex;
+  justify-content: center;
+}
+
+.dropdown-item:hover{
+  background-color: #2B4CD7 !important;
+  color: white !important;
+}
+.Favoite-button{
+  background-color:#F1F1F4;
+  width: 4em;
+   border-radius: 50%;
+}
+.dd-button{
+  border-radius: 0.25em;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: transparent;
+}
+.dropdown-toggle{
+  border-radius: 0.25em;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left: transparent;
+}
+/* .Favoite-button i{
+color: #AAB8C2; font-size: 2em;
+} */
+*{
+  margin: 0 !important;
+}
+.rateProgress{
+  margin-bottom: 10px !important;
+}
+
+/* media query  */
+@media screen and (min-width:1100px) {
+  .NavFont {
+      font-size: 1.1em;
+  }
+  .txtFont {
+    font-size: 1em;
+  }
+}
+@media screen and (min-width:1000px) and (max-width:1010px){
+  .NavFont {
+      font-size: 0.80em;
+  }
+  .txtFont {
+    font-size: 0.80em;
+  }
+}
+
+@media screen and (min-width:751px) and (max-width:1000px) {
+  .NavFont {
+      font-size: 0.70em;
+  }
+  .txtFont {
+    font-size: 0.9em;
+}
+}
+
+@media screen and (min-width:400px )and (max-width:750px) {
+  .NavFont {
+      font-size: 0.90em;
+  }
+  .txtFont {
+    font-size: 0.80em;
+}
+}
+.outline{
+  outline: none !important;
+}
+.img-filter{
+  filter: invert(2%) sepia(0%) saturate(310%) hue-rotate(10deg) brightness(100%) contrast(100%)
+}
+
+.zoom {
+  transition: transform .2s;
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+}
+
+.zoom:hover {
+  transform: scale(1.2);
+}

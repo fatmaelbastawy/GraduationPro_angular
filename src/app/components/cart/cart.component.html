@@ -1,0 +1,275 @@
+<section class="div-center" *ngIf="!totalQuantity">
+  <div class="">
+    <div class="jest">
+      <img src="assets/cart/empty-state-cart-en.svg" alt="" class="img-fluid" />
+    </div>
+    <h3>
+      <b class="text-center txt" [translate]="'Your-shopping-cart-looks-empty'"></b>
+    </h3>
+    <b class="text-center txt fs-5" [translate]="'What-are-you-waiting-for?'"></b>
+    <div class="d-grid gap-2 col-6 mx-auto">
+      <button class="btn btn-primary mt-5 text-white fw-bold" routerLink="/Home" type="button"
+        [translate]="'START-SHOPPING'"></button>
+    </div>
+  </div>
+</section>
+
+<div class="container-fluid" *ngIf="totalQuantity">
+  <div class="col-12">
+    <h3 class="cart-item ms-5" style="
+        font-size: 14px;
+        line-height: 28px;
+        color: rgb(126, 133, 155); ">
+      <span class="m-2" style="
+          font-size: 23px;
+          font-weight: bold;
+          line-height: 25px;
+          font-style: normal;
+          color: rgb(51, 51, 51);"
+           [translate]="'cart'"></span>
+      <span>(
+        {{ totalQuantity }}
+        <span class="m-1" [translate]="'items'"></span>
+        )</span>
+    </h3>
+  </div>
+  <div class="row border" style="background: #f7f7fa">
+    <div class="container-fluid col-12 col-sm-12 col-md-8">
+
+      <!-- for loop on product in cart -->
+      <ng-container *ngFor="let product of productInCart">
+        <div class="border border-white bg-white text-dark rounded-end ms-5 me-5 mt-4"
+          style="border-bottom-left-radius: 5px; left: 4px">
+          <div class="row">
+            <div (click)="getProductDetails(product.id)" class="btn col-3">
+              <img class="img img-filter" [src]="product.imagePath" alt="" />
+            </div>
+            <div class="col-7">
+              <span class="brand">{{
+                lang === "en" ? product?.brand?.name : product?.brand?.nameAr
+                }}</span>
+              <h3 class="sc-87f4bf16-18 discription NavFont">
+                {{ lang == "en" ? product.name : product.nameAr }}
+              </h3>
+
+              <!-- <h6 class="order NavFont">Order in the next 34 mins</h6><br /> -->
+              <h6 class="delivery NavFont" [translate]="'cat-free-delivery'"></h6>
+              <div style="
+                  font-size: 14px;
+                  color: rgb(126, 133, 155);
+                  margin: 10px 0px 5px;
+                ">
+                <span [translate]="'Sold-By'"></span>
+                <strong [translate]="'noon'"></strong>
+              </div>
+              <div class="select NavFont">
+                <img src="assets/cart/same_day_delivery.svg" alt="" />
+                <span [translate]="'select'"></span>
+                <strong [translate]="'towdaysd'"></strong>
+                <span [translate]="'select-2day'"></span>
+                <strong [translate]="'2-days'"></strong>
+              </div>
+              <div class="warranty" style="font-size: 12px">
+                <img src="assets/cart/warranty.svg" alt="" />
+                <span [translate]="'1-y-waeantrly'"></span>
+              </div>
+              <div (click)="removeItemFromCart($event, product.id)" class="d-inline-block remove mt-2 mb-3"
+                style="font-size: 12px">
+                <img src="assets/cart/trash.svg" alt="" />
+                <span [translate]="'Remove'"></span>
+              </div>
+            </div>
+            <div class="col-2" style="float: right;float: left;padding: 5px;">
+              <!-- <div class="price">EGP <b class="textF">1138</b></div> -->
+              <div class="price">
+                <!-- | currency : "EGP":'symbol':'1.0-0'  -->
+                <b class="textF" [translate]="'EGP'" style="float: right;float: left;margin-left: 15px;margin-right: 15px;">
+                </b>
+                <b class="textF" style="float: right;float: left;">
+                  {{ product.price }}
+                </b>
+              </div>
+              <div class="mt-5">
+                <div class="col-8 mt-5 p-3" style="float: right;float: left;padding: 5px;">
+                
+                <select class="form-select" (change)="updateItemQuantity($event, product.id)" aria-label="Default select example" *ngIf="product!=null ">
+                  <ng-container *ngFor="let item of productQuantity; let i=index;">
+                  <option *ngIf="product.quantity> i" 
+                    [value]="i+1" [selected]=" i+1 === getQuantityByproductId(product.id)"> {{i+1}}
+                  </option>
+                </ng-container>
+                </select>
+                
+              </div>
+              </div>
+              <img src="assets/cart/express.svg" class="pt mt-2" style="float: right;float: left;margin-left: 15px;margin-right: 15px;"/>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <div class="col-5 ms-5  me-5 mt-3 mb-4">
+        <button type="button" class="btn btn-light border border-primary text-primary fw-bold onclic">
+          <a class="text-decoration-none" [routerLink]="['/Home']" [translate]="'Continue-Shopping'"></a>
+        </button>
+      </div>
+    </div>
+
+    <!-- right side -->
+    <main class="container-fluid col-12 col-sm-12 col-md-4">
+      <div class="border border-secondary-subtle p-2 mt-3 ms-5 me-5">
+
+        <div class="m-2" [translate]="'order-summary'"><b></b></div>
+        <div class="row1 m-3">
+          <form>
+            <input *ngIf="lang=='en'" size="12em" type="text" placeholder="{{ 'Coupon-Code' | translate }}" value="" class="input1" />
+            <input *ngIf="lang=='ar'" size="12em" type="text" placeholder="{{ 'Coupon-Code' | translate }}" 
+            value="" class="rounded-end-2" style="border:gray 1px solid;" />
+          </form>
+          <button *ngIf="lang=='en'" class="bg-primary button1">
+            <span  class="span3" [translate]="'Apply'"></span>
+          </button>
+          <button *ngIf="lang=='ar'" class="bg-primary rounded-start-2">
+            <span  class="span3" [translate]="'Apply'"></span>
+          </button>
+        </div>
+        <div class="span1">
+          <div class="m-3 d-inline-block">
+            <span [translate]="'Subtotal'" [translateParams]="{ NOitems: 1 }"
+            *ngIf="lang=='ar'" style="float:right;"></span>
+            <span [translate]="'Subtotal'" [translateParams]="{ NOitems: 1 }"
+            *ngIf="lang=='en'" style="float:left;"></span>
+            <span style="float: left;margin-right: 9em;" *ngIf="lang=='ar'">
+                <span class="span2 fs-5" [translate]="'EGP'"></span>
+                <span class="span2 fs-5 mx-1">{{ totalPrice }}</span>
+              </span>
+              <span style="float: right;margin-left: 11em;" *ngIf="lang=='en'" >
+                <span class="span2 fs-5" [translate]="'EGP'"></span>
+                <span class="span2 fs-5 mx-1">{{ totalPrice }}</span>
+              </span>
+          </div>
+          <div class="m-2 ">
+            <span [translate]="'Shipping'">
+              <span style="color: #0d6efd; float: right" *ngIf="lang=='en'" [translate]="'Details'"></span>
+              <span style="color: #0d6efd; float: left" *ngIf="lang=='ar'" [translate]="'Details'"></span>
+            </span>
+              <span style="color: #0d6efd" [translate]="'Free'"></span>
+          </div>
+        </div>
+        <hr />
+        <div>
+          <div class="m-3">
+            <span>
+              <span [translate]="'Total'" class="fw-bold fs-5"></span>
+              <span class="span1" [translate]="'Inclusive_of_VAT'"></span></span>
+              <!-- <span class="span2" *ngIf="lang=='en'" [translate]="'EGP'">{{totalPrice}}</span> -->
+              <div class="d-inline-block">
+              <span class="fw-bold fs-5 ms-1">{{totalPrice}}</span>
+              <span class="fw-bold fs-5" style="float: left;" [translate]="'EGP'">
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white m-3 p-2 row1">
+          <div class="col-1">
+            <i class="fa-solid fa-building-columns i"></i>
+          </div>
+          <div class="col-11 span2" [translate]="'monthly-payment'"></div>
+        </div>
+        <div class="d-grid gap-2 m-3">
+          <button *ngIf="!istoken" type="button" class="btn btn-primary text-light"
+          data-bs-target="#logModal"
+            data-bs-toggle="modal"
+           [translate]="'CHECKOUT'"
+          ></button>
+          <button *ngIf="istoken" class="btn btn-primary text-light" type="button" data-bs-target="#exampleModalToggl"
+            data-bs-toggle="modal" [translate]="'CHECKOUT'"></button>
+          <div class="modal" tabindex="-1" role="dialog" id="exampleModalToggl" aria-hidden="true"
+            aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" [translate]="'Enter-dilivery-Data'"></h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+
+                <!-- check out modal -->
+                <div class="modal-body">
+                  <form #fref="ngForm" class="text-muted">
+                    <div class="row mb-3">
+                      <label for="Address" class="form-label fw-bold" [translate]="'Address'"></label>
+                      <input id="Address" required #address class="border-bottom" 
+                        placeholder="city,street,building number,floor no,flat no" type="text"
+                        style="border-radius: 0 !important; outline: none !important;">
+                    </div>
+                    <div class="row">
+                      <label for="Phone" [translate]="'Phone-Number'" class="form-label fw-bold"></label>
+                      <div class="col-12">
+                        <div class="col-1 d-inline fw-bold">+20</div>
+                        <div class="col- d-inline fw-bold">
+                          <select required #fnum>
+                            <option selected>10</option>
+                            <option value="1">11</option>
+                            <option value="2">12</option>
+                            <option value="3">15</option>
+                          </select>
+                        </div>
+                        <input id="Phone" maxlength="8" required #phone class=" col-8 outline"
+                          placeholder="i.e 12345678" type="text" style="border-radius: 0 !important;">
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <div class="col-5 m-2">
+                        <label for="firstname"  class="form-label fw-bold" [translate]="'First-Name'"></label>
+                        <input id="firstname" required #firstname class="outline  border-bottom" placeholder="First Name"
+                          type="text" style="border-radius: 0 !important;">
+                      </div>
+                      <div class="col-5 m-2 ">
+                        <label for="lastname" class="form-label fw-bold" [translate]="'Last-Name'"></label>
+                        <input id="lastname" required #lastname class="outline  border-bottom" placeholder="First Name"
+                          type="text" style="border-radius: 0 !important;">
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <label class="form-check-label col-5" for="flexSwitchCheckDefault">Set Default Address</label>
+                      <div class="form-check form-switch col-2 d-inline">
+                        <input class="form-check-input border" style="width: 4em; height: 1.5em;" type="checkbox"
+                          role="switch" id="flexSwitchCheckDefault">
+                      </div>
+                    </div>
+                    <div class="row mb-3">
+                      <div class="col-2">
+
+                        <input type="radio" class="btn-check" name="options-outlined" id="success-outlined"
+                          autocomplete="off" checked>
+                        <label class="btn btn-outline-primary" for="success-outlined">Home</label>
+                      </div>
+                      <div class="col-2">
+                        <input type="radio" class="btn-check" name="options-outlined" id="danger-outlined"
+                          autocomplete="off">
+                        <label class="btn btn-outline-primary" for="danger-outlined">Work</label>
+                      </div>
+                    </div>
+                <div class="modal-footer">
+                  <button type="button"  class="btn btn-primary text-light fw-bold"
+                    (click)="sendCheckOutData(address.value,phone.value,fnum.value,firstname.value,lastname.value)" [translate]="'save-address'"
+                    data-bs-dismiss="modal" data-dismiss="modal" aria-label="Close" [disabled]="fref.invalid" >
+                  </button>
+                </div>
+                
+                  </form>
+                  </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+<!-- </div> -->
